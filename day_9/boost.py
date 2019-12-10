@@ -26,11 +26,12 @@ def main():
     computer = IntCodeComputer(int_code)
     computer.input(1)
     computer.execute()
-
-    print(computer.outputs)
-
     print('Part 1 answer: {}'.format(computer.outputs[-1]))
-    print('Part 2 answer: {}'.format(None))
+
+    computer = IntCodeComputer(int_code)
+    computer.input(2)
+    computer.execute()
+    print('Part 2 answer: {}'.format(computer.outputs[-1]))
 
     return 0
 

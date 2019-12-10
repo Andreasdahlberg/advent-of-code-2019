@@ -73,7 +73,7 @@ class IntCodeComputer(object):
     def _get_instruction_function(self, instruction):
         return getattr(self, '_' + str(instruction.opcode))
 
-    def _decode(self):
+    def _decode(self, debug=False):
         lengths = {
             1: 4,
             2: 4,
@@ -99,7 +99,8 @@ class IntCodeComputer(object):
 
 
         instruction = Instruction(opcode, *params)
-        print(self._ip, self._get_instruction_function(instruction), instruction)
+        if debug:
+            print(self._ip, self._get_instruction_function(instruction), instruction)
         return instruction
 
     def _get_parameters(self, instruction):
@@ -117,16 +118,10 @@ class IntCodeComputer(object):
         else:
             b = self._get_data(instruction.b.value)
 
-#        if instruction.c.mode == 1:
-#            c = instruction.c.value
-#        elif instruction.c.mode == 2:
-#            c = self._get_data(self._relative_base + instruction.c.value)
-#        else:
-#            c = self._get_data(instruction.c.value)
-
-        if instruction.c.mode == 2:
-            c = self._get_data(self._relative_base + instruction.c.value)
-            print(self._relative_base, instruction.c.value, c)
+        if instruction.c.mode == 1:
+            raise NotImplementedError
+        elif instruction.c.mode == 2:
+            c = self._relative_base + instruction.c.value
         else:
             c = instruction.c.value
 
@@ -214,10 +209,7 @@ class IntCodeComputer(object):
         LENGTH = 2
         a, _, _ = self._get_parameters(instruction)
         self._relative_base += a
-        #print('Base: {}, Mod: {}'.format(self._relative_base, a))
-
         return self._ip + LENGTH
-
 
     def _99(self, instruction):
         print('Halt')
