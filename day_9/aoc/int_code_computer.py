@@ -147,13 +147,13 @@ class IntCodeComputer(object):
         value = self._inputs.popleft()
 
         if instruction.a.mode == 1:
-            self._set_data(instruction.a.value, value)
-            print('Store {} at {}'.format(value, instruction.a.value))
+            raise NotImplementedError
         elif instruction.a.mode == 2:
             self._set_data(self._relative_base + instruction.a.value, value)
             print('Store {} at {}'.format(value, self._relative_base + instruction.a.value))
         else:
-            raise NotImplementedError
+            self._set_data(instruction.a.value, value)
+            print('Store {} at {}'.format(value, instruction.a.value))
         return self._ip + LENGTH
 
     def _4(self, instruction):
